@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: udaconnect-locations-grpc
+  name: udaconnect-locations-grpc
+spec:
+  ports:
+  - name: "5005"
+    port: 5005
+    targetPort: 5005
+    nodePort: 30003
+  selector:
+    service: udaconnect-locations-grpc
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: udaconnect-locations-grpc
+  name: udaconnect-locations-grpc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: udaconnect-locations-grpc
+  template:
+    metadata:
+      labels:
+        service: udaconnect-locations-grpc
+    spec:
+      containers:
+      - image: isildrum/udaconnect-locations-grpc:v1
+        name: udaconnect-locations-grpc
+        imagePullPolicy: Always
+      restartPolicy: Always

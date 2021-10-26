@@ -1,0 +1,5 @@
+kafka-python==2.0.2
+protobuf==3.18.1
+grpcio-tools==1.41
+grpcio==1.41
+Json-util==1.6.8

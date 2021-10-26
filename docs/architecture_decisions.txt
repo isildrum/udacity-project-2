@@ -1,0 +1,5 @@
+1) API Separation: The API monolith was separated into 2 different API services, one for persons and the other for locations.  This strategy was used to implement specific technologies for locations to fullfill the requirement: "a large volume of location data that will be ingested".  The Connection endpoint was moved from Persons to Location for consistency purposes.
+2) Kafka deployment: Kafka was deployed within kubernetes to handle asynchronous reads and writes for locations.
+3) Location API Service to gRPC:  This strategy was used for data security purposes,  since location data is a very sensitive information.
+4) Location gRPC Service to Kafka:  This strategy was used to handle the large volume of location data that will be ingested.  
+5) Location Kafka consumer: This service reads the Kafka stream and write to the database.

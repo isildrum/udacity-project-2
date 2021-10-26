@@ -1,0 +1,24 @@
+Test with docker:
+
+1) Forward postgres service port to allow external connections
+
+kubectl port-forward svc/postgres 5432:5432
+
+2) Build, Tag and Run docker image for gRPC service
+
+docker build -t udaconnect-locations-grpc -f ./locations-grpc/Dockerfile ./locations-grpc
+
+docker tag udaconnect-locations-grpc isildrum/udaconnect-locations-grpc:v1
+
+docker run -p 5005:5005 -e DB_USERNAME='ct_admin' -e DB_PASSWORD='hotdogsfordinner' -e DB_HOST='localhost' -e DB_PORT=5432 -e DB_NAME='geoconnections' isildrum/udaconnect-locations-grpc:v1
+
+NOTE: This has to be done from the modules directory of the project
+
+3) Run writer.py
+
+python writer.py
+
+NOTE: This has to be done in a different cmd interface
+
+
+
