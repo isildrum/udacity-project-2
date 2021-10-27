@@ -32,13 +32,6 @@ class Location(base):
     coordinate = Column(Geometry("POINT"))
     creation_time = Column(DateTime)
 
-location = {
-"person_id": 1,
-"longitude": "37.553441",
-"latitude": "-122.290524",
-"creation_time": datetime.now().isoformat()
-}
-
 Session = sessionmaker(db)  
 session = Session()
 
@@ -49,12 +42,13 @@ TOPIC_NAME = 'udaconnect-locations'
 KAFKA_SERVER = 'kafka-0.kafka-headless.default.svc.cluster.local:9092'
 
 consumer = KafkaConsumer(TOPIC_NAME, bootstrap_servers=KAFKA_SERVER, auto_offset_reset='latest', value_deserializer=lambda x: loads(x.decode('utf-8')))
-for message in consumer:
-    location = message.value
-    new_location = Location(person_id=location["person_id"], 
-                        coordinate=ST_Point(location["latitude"], location["longitude"]),
-                        creation_time=location["creation_time"])
+while True:
+    for message in consumer:
+        location = message.value
+        new_location = Location(person_id=location["person_id"], 
+                            coordinate=ST_Point(location["latitude"], location["longitude"]),
+                            creation_time=location["creation_time"])
 
-    session.add(new_location)  
-    session.commit()
-    print('{}'.format(new_location))
+        session.add(new_location)  
+        session.commit()
+        print('{}'.format(new_location))

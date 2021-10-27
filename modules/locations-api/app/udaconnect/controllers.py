@@ -13,10 +13,7 @@ from typing import Optional, List
 
 DATE_FORMAT = "%Y-%m-%d"
 
-api = Namespace("UdaConnect Locations API", description="UdaConnect Locations API")  # noqa
-
-
-# TODO: This needs better exception handling
+api = Namespace("UdaConnect Locations API", description="UdaConnect Locations API")
 
 
 @api.route("/locations")
